@@ -43,7 +43,7 @@ def serialClose():
     ser.close()
 
 
-ser = serialInit("COM8", 9600)
+ser = serialInit("/dev/ttyACM0", 9600)
 sendMsg("FF FF FF", 3)
 print(readMsg(4))
 

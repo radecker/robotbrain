@@ -17,7 +17,7 @@ def addHeader(message_type):
     header = []
     syncMsg = ["DE", "AD", "BE", "EF"]
 
-    message_type = hex(int(message_type))[2:4]
+    message_type = hex(int(message_type))[2:4]      # Extract the message type from the function pass
     if len(message_type) < 2:
         message_type = "0" + message_type
     for word in syncMsg:
