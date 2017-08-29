@@ -13,6 +13,7 @@ Change Log:
 
 import time
 
+
 def addHeader(message_type):
     header = []
     syncMsg = ["DE", "AD", "BE", "EF"]
@@ -35,9 +36,22 @@ def addHeader(message_type):
     header_string += " "
     return header_string
 
+
 def addBuffer(message):
     message_array = message.split(' ')
-    while len(message_array) < 60:
+    while len(message_array) < 48:      # Use 48 because: 48 + len(header) = 64
         message_array.append("00")
     message = " ".join(message_array)
+    return message
+
+
+def encodeMessage(message):
+    bytes = bytearray(int(word, 16) for word in message)
+    bytes = bytearray.fromhex("".join(message))
+    return bytes
+
+
+def decodeMessage(message_str):
+    message_str = message_str.replace('\\x', ' ')
+    message = " ".split(message_str)
     return message

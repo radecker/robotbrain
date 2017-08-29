@@ -21,11 +21,12 @@ def serialInit(port, baud_rate):
 
 def sendMsg(message, message_type):
     header = messages.addHeader(message_type)
-    message = header + message + messages.addBuffer(message)
+    message = header + messages.addBuffer(message)
     message = message.split(' ')
     print(message)
-    #bytes_written = ser.write(message)
-    #return bytes_written
+    message = messages.encodeMessage(message)
+    bytes_written = ser.write(message)
+    return bytes_written
 
 def readMsg(num_messages):
     message = []
@@ -37,14 +38,16 @@ def readMsg(num_messages):
                 time.sleep(.1)
                 num_bytes = ser.inWaiting()
         message.append(ser.read(num_bytes))
-    return message
+    return message, num_bytes
 
 def serialClose():
     ser.close()
 
 
 ser = serialInit("/dev/ttyACM0", 9600)
-sendMsg("FF FF FF", 3)
-print(readMsg(4))
+sendMsg("FF FF FF FF FF FF FF FF", 3)
+msg = readMsg(1)
+print(msg)
+print(decodeMessage(msg[0]))
 
 serialClose()
